@@ -132,8 +132,13 @@ Let's say you have a document with a field called `firstName` and `lastName`. To
 Follow [this](https://www.digitalocean.com/community/tutorials/how-to-sync-transformed-data-from-mongodb-to-elasticsearch-with-transporter-on-ubuntu-14-04) for installing Transporter. As I mentioned before, I don't recommend using this, use only if you need to apply transformations to your data. It takes a while and any changes you make to your MongoDB collection won't be replicated. I'll include the transformation and config files that I used in the docs folder.
 
 Relevant links
+
 https://github.com/compose/transporter/pull/168/commits/851f3d1f10bd1458c5c84fd0070ab7cfa5631762
+
 https://github.com/kylemclaren/mongo-transporter/wiki/Creating-a-MongoDB-oplog-user
+
 https://www.compose.com/articles/transporter-driving-part-2-from-db-to-db/
+
 https://www.compose.com/articles/transporter-maps-mongodb-to-elasticsearch/
+
 https://github.com/compose/transporter/pull/168/commits/851f3d1f10bd1458c5c84fd0070ab7cfa5631762
