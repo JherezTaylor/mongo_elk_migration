@@ -1,4 +1,4 @@
-# MongoDB Elastic Stack Migration Guide
+# [MongoDB Elastic Stack Migration Guide](https://jhereztaylor.github.io/mongo_elk_migration/)
 
 This guide serves as an overview of the approaches that are currently available for moving your MongoDB collections
 to the Elastic Stack and keeping them in sync.
