@@ -5,7 +5,7 @@ to the Elastic Stack and keeping them in sync.
 
 ### Background info
 
-Given that we are going to be moving data around it goes without saying that you should a backup of your data before you even begin.
+Given that we are going to be moving data around it goes without saying that you should make a backup of your data before you even begin.
 I cannot stress enough that the applications for migating the data are experimental and should be treated as such.
 
 ### Why introduce [ElasticSearch?](https://www.elastic.co/products/elasticsearch)
@@ -33,7 +33,7 @@ You can try out a demo [here](demo.elastic.co/).
 
 ## Enviromnent Config
 
-The following assumes you already have MongoDB setup and running.
+The following assumes that you already have MongoDB setup and running.
 
 #### 1. Install ElasticSearch
 
@@ -106,7 +106,7 @@ replset:PRIMARY> db.getSiblingDB("admin").createUser({
 
 #### 5. A note on ElasticSearch Index Mapping
 
-In ElasticSearch an Index has the same meaning as a Database. Where in MongoDB you would have `db.collection` in ElasticSearch we have `index.type`. Whenever you push documents into ElasticSearch, it does a best effort job of figuring out what types the document fields are. This determines what fields are indexed and thus searchable. If you want to do things like geospatial or timeseries queries then you need to manually define an index mapping BEFORE you start pushing documents. A sample mapping for a tweet object is included, note that this mapping is what I created for the specific format of my tweets as I removed some fields, it should be easy enough to follow. This  [article](https://community.hortonworks.com/articles/56648/creating-a-kibana-dashboard-of-twitter-data-pushed.html) provides an overview of ELK and covers how to create your mapping.
+In ElasticSearch an Index has the same meaning as a Database. Where in MongoDB you would have `db.collection` in ElasticSearch we have `index.type`. Whenever you push documents into ElasticSearch, it does a best effort job of figuring out what types the document fields are. This determines what fields are indexed and thus searchable. If you want to do things like geospatial or timeseries queries then you need to manually define an index mapping BEFORE you start pushing documents. A sample mapping for a tweet object is included, note that this mapping is what I created for the specific format of my tweets as I removed some fields, it should be easy enough to follow. This  [article](https://community.hortonworks.com/articles/56648/creating-a-kibana-dashboard-of-twitter-data-pushed.html) provides an overview of ELK and covers how to create your mapping. You cannot change your mapping after it has been creating without reindexing the entire Index. Start by testing with a small subset of your documents in order to ensure that you are satisfied with the results before you index your entire dataset.
 
 ## Data Migration
 
