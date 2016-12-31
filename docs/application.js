@@ -8,5 +8,5 @@ Source({
     debug: true
 }).save({
     name: "es",
-    namespace:"twitter.tweets"
+    namespace: "twitter.tweets"
 })

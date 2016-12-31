@@ -1,0 +1,49 @@
+{
+    "__comment__": "Configuration options starting with '__' are disabled",
+    "__comment__": "To enable them, remove the preceding '__'",
+
+    "mainAddress": "localhost:27017",
+    "oplogFile": "oplog.timestamp",
+    "noDump": true,
+    "batchSize": -1,
+    "verbosity": 2,
+    "continueOnError": false,
+
+    "logging": {
+        "type": "stream",
+        "filename": "mongo-connector.log",
+        "format": "%(asctime)s [%(levelname)s] %(name)s:%(lineno)d - %(message)s",
+        "__rotationWhen": "D",
+        "__rotationInterval": 1,
+        "__rotationBackups": 10,
+
+        "__type": "syslog",
+        "__host": "localhost:514"
+    },
+
+    "authentication": {
+        "adminUsername": "user",
+        "password": "pass"
+    },
+
+    "__fields": ["field1", "field2", "field3"],
+
+    "namespaces": {
+        "include": ["db.collection"],
+        "__include": ["db.collection"],
+        "__exclude": ["db1.*", "db2.*"]
+    },
+
+    "docManagers": [{
+        "docManager": "elastic2_doc_manager",
+        "__targetURL": "localhost:9200",
+        "bulkSize": 5000,
+        "uniqueKey": "_id",
+        "__autoCommitInterval": null,
+        "__args": {
+            "clientOptions": {
+                "http_auth": "user:pass"
+            }
+        }
+    }]
+}
