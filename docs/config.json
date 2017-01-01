@@ -4,7 +4,7 @@
 
     "mainAddress": "localhost:27017",
     "oplogFile": "oplog.timestamp",
-    "noDump": true,
+    "noDump": false,
     "batchSize": -1,
     "verbosity": 2,
     "continueOnError": false,
@@ -31,7 +31,10 @@
     "namespaces": {
         "include": ["db.collection"],
         "__include": ["db.collection"],
-        "__exclude": ["db1.*", "db2.*"]
+        "__exclude": ["db1.*", "db2.*"],
+        "mapping": {
+            "db.collection": "db_new.collection"
+        }
     },
 
     "docManagers": [{
