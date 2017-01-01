@@ -108,6 +108,21 @@ replset:PRIMARY> db.getSiblingDB("admin").createUser({
 
 In ElasticSearch an Index has the same meaning as a Database. Where in MongoDB you would have `db.collection` in ElasticSearch we have `index.type`. Whenever you push documents into ElasticSearch, it does a best effort job of figuring out what types the document fields are. This determines what fields are indexed and thus searchable. If you want to do things like geospatial or timeseries queries then you need to manually define an index mapping BEFORE you start pushing documents. A sample mapping for a tweet object is included, note that this mapping is what I created for the specific format of my tweets as I removed some fields, it should be easy enough to follow. This  [article](https://community.hortonworks.com/articles/56648/creating-a-kibana-dashboard-of-twitter-data-pushed.html) provides an overview of ELK and covers how to create your mapping. You cannot change your mapping after it has been creating without reindexing the entire Index. Start by testing with a small subset of your documents in order to ensure that you are satisfied with the results before you index your entire dataset.
 
+You may need to create your Index before starting the sync. After creating you PUT - ing the mapping template as specified in the last article, initialize the index you want to sync with:
+
+```bash
+curl -XPUT http://localhost:9200/templatename_xxx -d '                         
+{
+   "settings": { "index" : {
+        "refresh_interval" : "-1",
+        "number_of_replicas":"0"
+    	}
+    }
+}'
+```
+
+Where `templatename` is the name of the template we created, `twitter*` for example. This wild card applies the template to any Index we create that begins with `templatename`, the `_` is just here for illustrative purposes. We set the options in this way to speed up the initial sync as specified [here](https://www.elastic.co/guide/en/elasticsearch/reference/current/tune-for-indexing-speed.html#_disable_refresh_and_replicas_for_initial_loads). After the sync we can run the same curl command and set `refresh_interval:1s` and `number_of_replicas:1`, their default values.
+
 ## Data Migration
 
 Assuming you were able to install everything so far, we now get to the meat of the matter. I'll remind you again to make a backup of your data.
