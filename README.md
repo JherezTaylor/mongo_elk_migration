@@ -155,6 +155,7 @@ Relevant links
 * [Usage with Authentication](https://github.com/mongodb-labs/mongo-connector/wiki/Usage-with-Authentication)
 * [Oplog Progress File](https://github.com/mongodb-labs/mongo-connector/wiki/Oplog-Progress-File)
 * [#305](https://github.com/mongodb-labs/mongo-connector/issues/305)
+* [#229](https://github.com/mongodb-labs/mongo-connector/issues/229)
 
 
 
