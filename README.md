@@ -87,8 +87,11 @@ sudo nano /etc/systemd/system/kibana.service
 
 #### 3. Initializing a ReplicaSet
 
-For both of these methods, your MongoDB instance needs to be running in ReplicaSet mode. This is where multiple servers operate together in a master/slave configuration. You don't need to have more than one server as it can be done with a single machine. [Follow this.](https://docs.mongodb.com/v3.0/tutorial/convert-standalone-to-replica-set/) You can stop when you get to the section about Initializing as you don't
-need to do anything with shards or expanding.
+For both of these methods, your MongoDB instance needs to be running in ReplicaSet mode. This is where multiple servers 
+operate together in a master/slave configuration. You don't need to have more than one server as it can be done with a 
+single machine. [Follow this.](https://docs.mongodb.com/v3.0/tutorial/convert-standalone-to-replica-set/) You can stop when 
+you get to the section about Initializing as you don't need to do anything with shards or expanding. If you run into an error about permissions when trying to connect to the new replica set follow the steps in the answer [here.](http://stackoverflow.com/questions/15229412/unable-to-create-open-lock-file-data-mongod-lock-errno13-permission-denied)
+
 
 #### 4. Creating an Admin User
 
