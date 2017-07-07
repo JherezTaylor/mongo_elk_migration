@@ -87,9 +87,9 @@ sudo nano /etc/systemd/system/kibana.service
 
 #### 3. Initializing a ReplicaSet
 
-For both of these methods, your MongoDB instance needs to be running in ReplicaSet mode. This is where multiple servers 
-operate together in a master/slave configuration. You don't need to have more than one server as it can be done with a 
-single machine. [Follow this.](https://docs.mongodb.com/v3.0/tutorial/convert-standalone-to-replica-set/) You can stop when 
+For both of these methods, your MongoDB instance needs to be running in ReplicaSet mode. This is where multiple servers
+operate together in a master/slave configuration. You don't need to have more than one server as it can be done with a
+single machine. [Follow this.](https://docs.mongodb.com/v3.0/tutorial/convert-standalone-to-replica-set/) You can stop when
 you get to the section about Initializing as you don't need to do anything with shards or expanding. If you run into an error about permissions when trying to connect to the new replica set follow the steps in the answer [here.](http://stackoverflow.com/questions/15229412/unable-to-create-open-lock-file-data-mongod-lock-errno13-permission-denied)
 
 
@@ -158,32 +158,25 @@ Relevant links
 * [Usage with Authentication](https://github.com/mongodb-labs/mongo-connector/wiki/Usage-with-Authentication)
 * [Oplog Progress File](https://github.com/mongodb-labs/mongo-connector/wiki/Oplog-Progress-File)
 * [#305](https://github.com/mongodb-labs/mongo-connector/issues/305)
-* [#229](https://github.com/mongodb-labs/mongo-connector/issues/229)
-
 
 
 ### Transporter
 
-As of the time of this writing, Transporter is a bit broken in that it creates duplicates when updating and it does not handle deletes but I am mentioning it here for a reason. They are working on an update as mentioned in [#209](https://github.com/compose/transporter/issues/209). In the meantime if you do use it keep in mind that it is a one way operation which takes quite a while depending on the size of your dataset. So test and plan accordingly.
-
-The reason I mention Transporter is because of a feature it has called Transformations that I like. The basic idea of it is that you can modify each document you transfer. This modification includes choosing what fields to keep, combing fields and much more, all by writing simple javascript functions. An example:
+Transporter has a feature that I like called Transformations. The basic idea of it is that you can modify each document you transfer. This modification includes choosing what fields to keep, combing fields and much more, all by writing simple javascript functions. An example:
 
 ```javascript
-module.exports = function(doc) {
-    // You must set _id like this for it to keep the same _id in ES
-    doc.data._id = doc.data._id.$oid;
-    doc.data.fullName = doc.data.firstName + ' ' + doc.data.lastName;
-    return doc;
+function transform(doc) {
+    doc["data"]["name_type"] = doc["data"]["firstName"] + " " + doc["data"]["lastName"];
+    return doc
 }
 ```
 
-Let's say you have a document with a field called `firstName` and `lastName`. To optimize we can create a new filed called `fullName` that is the combination of both. This is just a simple example, more details can be found [here.](https://www.compose.com/articles/transporter-driving-part-2-from-db-to-db/)
+Let's say you have a document with a field called `firstName` and `lastName`. To optimize we can create a new filed called `fullName` that is the combination of both. This is just a simple example, more details can be found [here.](https://www.compose.com/articles/transporter-0-3-0-released-transporter-streamlined/)
 
-Follow [this](https://www.digitalocean.com/community/tutorials/how-to-sync-transformed-data-from-mongodb-to-elasticsearch-with-transporter-on-ubuntu-14-04) for installing Transporter. As I mentioned before, I don't recommend using this, use only if you need to apply transformations to your data. It takes a while and any changes you make to your MongoDB collection won't be replicated. I'll include the transformation and config files that I used in the docs folder as `config.yaml`, `application.js` and `transform_*.js`. One last note, Transporter will not set the `_id` field in ElasticSearch unless you explicitly tell it to in the transform file (see the javascript snippet above where I extract the `_id`). It will instead rely on ElasticSearch to auto generate an `_id`, so `_id` in MongoDB will not be equal to `_id` in ElasticSearch. Also, depending on when you read this the issues with updates and deletes should have already been patched, if not you can fix it yourself with [#168](https://github.com/compose/transporter/pull/168)
+Grab a binary from [here](https://github.com/compose/transporter/releases) for installing Transporter. I'll include the transformation and config files that I used in the docs folder as `pipeline.js` and `prep_data.js`.
 
 Relevant links
 
-* [PR #168](https://github.com/compose/transporter/pull/168/commits/851f3d1f10bd1458c5c84fd0070ab7cfa5631762)
 * [Creating an Oplog User](https://github.com/kylemclaren/mongo-transporter/wiki/Creating-a-MongoDB-oplog-user)
 * [Transporter Usage Article](https://www.compose.com/articles/transporter-driving-part-2-from-db-to-db/0)
 * [Transporter ES Article](https://www.compose.com/articles/transporter-maps-mongodb-to-elasticsearch/)
